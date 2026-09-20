@@ -43,3 +43,25 @@ using a bank-statement URL example to reason through an access control bug.
 
 **Next:** How to actually implement the ownership check in code —
 where it belongs and how to avoid missing it on any one endpoint.
+
+
+## Day 5 — 2026-09-20
+
+**Did:** Created a publicly accessible S3 bucket in Terraform to explore
+the infrastructure equivalent of the access-control problem studied
+with IDOR — access not being properly restricted, just at the storage
+layer instead of the app layer.
+
+**Learned:** Scanned the bucket with checkov, which caught the public
+access; fixed it by restoring the account's default access-block
+settings (block_public_acls, block_public_policy, ignore_public_acls,
+restrict_public_buckets all back to true) and removing the public
+bucket policy. Also learned GuardDuty and Security Hub aren't
+available on AWS's restricted free account plan — read about what
+they do instead of hands-on today.
+
+**Stuck on:** GuardDuty/Security Hub blocked by free account plan
+restrictions — deferred, not a blocker for the exercise itself.
+
+**Next:** Continue into Kubernetes security basics (RBAC, network
+policies) using the kind cluster from day 1.
