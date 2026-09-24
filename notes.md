@@ -65,3 +65,23 @@ restrictions — deferred, not a blocker for the exercise itself.
 
 **Next:** Continue into Kubernetes security basics (RBAC, network
 policies) using the kind cluster from day 1.
+
+
+## Day 6 — 2026-09-22
+
+**Did:** Created a namespace in my kind cluster, a ServiceAccount, and
+a Role + RoleBinding restricting it to read-only pod access (get/list
+only, no delete).
+
+**Learned:** Verified the restriction with `kubectl auth can-i` —
+listing pods returned yes, deleting returned no. Reinforced core
+Kubernetes building blocks (nodes, pods, namespaces) and confirmed
+Kubernetes RBAC follows the same least-privilege pattern as AWS IAM —
+same concept, different system. Read about NetworkPolicy conceptually
+(not hands-on today — kind's default networking doesn't enforce
+NetworkPolicy without a separate CNI like Calico).
+
+**Stuck on:** none
+
+**Next:** possibly revisit NetworkPolicy hands-on later with Calico
+installed; continue phase 1 cloud security work.
