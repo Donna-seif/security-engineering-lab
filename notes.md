@@ -83,3 +83,20 @@ NetworkPolicy without a separate CNI like Calico).
 
 **Next:** possibly revisit NetworkPolicy hands-on later with Calico
 installed; continue phase 1 cloud security work.
+
+## Day 8 — 2026-09-27
+
+**Did:** Worked on Broken Access Control via PortSwigger labs. As a
+non-admin user, I found admin functionality by checking likely
+disclosure points — robots.txt and the page's JavaScript source —
+found the admin URL, navigated to it directly, and was able to
+escalate to admin-level access and delete data.
+
+**Learned:** Both labs shared the same root cause — the app hid the
+admin URL instead of actually checking permissions on the server side.
+Hiding a URL isn't access control; it's just obscurity, and it doesn't
+hold up once someone actually looks for it.
+
+**Stuck on:** none
+
+**Next:** continue Access Control labs, then move into SQL Injection.
