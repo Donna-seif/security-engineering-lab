@@ -23,3 +23,17 @@ no server-side permission check in place.
 is not a real access control, no matter how obscure. The endpoint
 needs its own server-side authorization check regardless of whether
 anyone can find the URL.
+
+## PortSwigger Lab: User ID controlled by request parameter
+**Vulnerability class:** IDOR leading to horizontal privilege escalation
+**What the app did wrong:** The user account page trusted the user ID
+supplied in the request, with no server-side check that it matched the
+currently authenticated user.
+**How I exploited it:** Logged in as a regular user, then changed the
+user ID in the URL to another user's ID, and was able to view that
+user's API key.
+**How I'd fix it:** Enforce a server-side check on every request:
+compare the requested user ID against the ID of the authenticated
+session, and reject the request if they don't match — the same
+ownership-check pattern that fixes IDOR generally, regardless of what
+the URL or request parameters claim.
