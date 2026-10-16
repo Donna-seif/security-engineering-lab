@@ -37,3 +37,13 @@ compare the requested user ID against the ID of the authenticated
 session, and reject the request if they don't match — the same
 ownership-check pattern that fixes IDOR generally, regardless of what
 the URL or request parameters claim.
+
+## PortSwigger Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
+
+**Vulnerability class:** SQL injection (CWE-89): user input concatenated into a database query.
+
+**What the app did wrong:** The product category filter took the `category` URL parameter and placed it directly into the SQL query as a string. The database could not tell the developer's SQL from the user's input, so characters like `'` and `--` were treated as SQL syntax. The query also relied on a `released = 1` condition to hide unreleased products, so one injection point exposed data the app meant to hide.
+
+**How I exploited it:** I added a single quote to the category value to close the string, then added a SQL comment (`--`) so the database ignored the rest of the original query, including the `released = 1` filter. The page then returned all products, including unreleased ones. (A payload such as `' OR 1=1--` also works, and is more reliable when the rest of the query is unknown, because the always-true condition makes the WHERE clause match every row.)
+
+**How I'd fix it:** Use parameterized queries (prepared statements) so user input is always treated as data, never as SQL. Add allow-list validation on the category value as defense in depth. Run the application's database account with least privilege, so a successful injection exposes less. In code review or SAST, flag any query built by string concatenation or formatting with request input.
