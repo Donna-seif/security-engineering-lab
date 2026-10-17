@@ -4,3 +4,6 @@ Approach: hashmap keyed on a 26-element character-count tuple perword; words wit
 **What I learned:** dict keys must be hashable, so the count list has to be converted to a tuple before it can be used as a key. defaultdict(list) auto-creates missing keys, avoiding manual key checks.
 res.values() returns a dict_values view, not an actual list —
 LeetCode's checker rejects that, so it needs list(res.values()) to match the declared List[List[str]] return type.
+
+## Two Sum - redo from memory after break
+[needed a hint] - hashmap of value to index
