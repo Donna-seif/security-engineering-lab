@@ -47,3 +47,13 @@ the URL or request parameters claim.
 **How I exploited it:** I added a single quote to the category value to close the string, then added a SQL comment (`--`) so the database ignored the rest of the original query, including the `released = 1` filter. The page then returned all products, including unreleased ones. (A payload such as `' OR 1=1--` also works, and is more reliable when the rest of the query is unknown, because the always-true condition makes the WHERE clause match every row.)
 
 **How I'd fix it:** Use parameterized queries (prepared statements) so user input is always treated as data, never as SQL. Add allow-list validation on the category value as defense in depth. Run the application's database account with least privilege, so a successful injection exposes less. In code review or SAST, flag any query built by string concatenation or formatting with request input.
+
+## PortSwigger Lab: SQL injection vulnerability allowing login bypass
+
+**Vulnerability class:** SQL injection (CWE-89), leading to authentication bypass.
+
+**What the app did wrong:** The login form's username and password were concatenated directly into the SQL query string. Because the database could not tell the developer's SQL from user input, a quote character in the username ended the string and let me change the query's logic.
+
+**How I exploited it:** I entered `administrator'--` as the username. The `'` closed the username string and `--` commented out the rest of the query, including the password check, so the query only matched on username and logged me in as administrator.
+
+**How I'd fix it:** Use parameterized queries (prepared statements) so the username and password are always sent to the database as data, never as SQL. Blocklisting SQL keywords is not a reliable fix, since attackers can work around it. Store passwords as salted hashes and compare the hash in code, so the password is never part of the query. Run the app's database account with least privilege.
