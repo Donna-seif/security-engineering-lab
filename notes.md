@@ -105,3 +105,6 @@ hold up once someone actually looks for it.
 - Built/ran: PortSwigger SQL injection lab #1 (hidden data retrieval via category filter).
 - Understand better: `--` comments out the rest of the query, which is what removed the `released = 1` filter. Parameterized queries are the real fix.
 - Would do differently: log the lab the same day I finish it.
+
+## Day 11: SQLi lab 2 (login bypass). 
+Same -- trick as lab 1, applied to a login form.
